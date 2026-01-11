@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import NewsCard from "./NewsCard";
 import { Loader2, AlertCircle, RefreshCw } from "lucide-react";
 import { Button } from "./ui/button";
@@ -19,27 +20,27 @@ interface Article {
 interface GNewsResponse {
   totalArticles: number;
   articles: Article[];
+  error?: string;
 }
 
-// GNews API key (publishable - used client-side)
-const GNEWS_API_KEY = "b773cf42d9d759247e5e29e05850867f";
-
 /**
- * Fetches Nepal technology news from GNews API
+ * Fetches Nepal technology news via edge function (avoids CORS issues)
  * Results are cached for 24 hours (controlled by staleTime)
  */
 const fetchNepalTechNews = async (): Promise<Article[]> => {
-  // Search for Nepal + technology news
-  const response = await fetch(
-    `https://gnews.io/api/v4/search?q=Nepal+technology&lang=en&max=10&apikey=${GNEWS_API_KEY}`
-  );
+  const { data, error } = await supabase.functions.invoke<GNewsResponse>('fetch-news');
   
-  if (!response.ok) {
+  if (error) {
+    console.error("Edge function error:", error);
     throw new Error("Failed to fetch news");
   }
   
-  const data: GNewsResponse = await response.json();
-  return data.articles || [];
+  if (data?.error) {
+    console.error("API error:", data.error);
+    throw new Error(data.error);
+  }
+  
+  return data?.articles || [];
 };
 
 /**
