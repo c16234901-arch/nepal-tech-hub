@@ -15,14 +15,11 @@ const Header = () => {
             className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
           />
           
-          {/* Site title and tagline */}
+          {/* Site title */}
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">
               NepaliTechHub
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground">
-              Latest Technology News from Nepal
-            </p>
           </div>
         </div>
       </div>
