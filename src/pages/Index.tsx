@@ -1,12 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from "@/components/Header";
+import NewsSection from "@/components/NewsSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 
+/**
+ * NepaliTechHub Homepage
+ * Displays latest Nepal technology news with contact functionality
+ */
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Header with logo and tagline */}
+      <Header />
+
+      {/* Main content - News section */}
+      <main className="flex-1">
+        <NewsSection />
+      </main>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Floating contact button and modal */}
+      <ContactSection />
     </div>
   );
 };
